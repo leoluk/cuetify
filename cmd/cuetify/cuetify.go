@@ -95,7 +95,7 @@ func process(filename string) error {
 		decls := inst.Value().Syntax(cue.Final(), cue.Concrete(true)).(*ast.StructLit).Elts
 		af := &ast.File{Decls: []ast.Decl{
 			&ast.CommentGroup{List: []*ast.Comment{
-				{Text: "// cuetify import from " + filename},
+				{Text: "// cuetify import from " + path.Base(filename)},
 			}},
 			&ast.Package{Name: ast.NewIdent(*flagPackage)},
 		}}
