@@ -62,15 +62,17 @@ func process(filename string) error {
 
 		apiVersion, err := v.LookupPath(cue.MakePath(cue.Str("apiVersion"))).String()
 		if err != nil {
-			return fmt.Errorf("failed to parse apiVersion: %v", err)
+			apiVersion = "(no version)"
 		}
 		kind, err := v.LookupPath(cue.MakePath(cue.Str("kind"))).String()
 		if err != nil {
-			return fmt.Errorf("failed to parse kind: %v", err)
+			log.Printf("failed to parse kind, skipping: %v", err)
+			continue
 		}
 		name, err := v.LookupPath(cue.MakePath(cue.Str("metadata"), cue.Str("name"))).String()
 		if err != nil {
-			return fmt.Errorf("failed to parse metadata.name: %v", err)
+			log.Printf("failed to parse metadata.name, skipping: %v", err)
+			continue
 		}
 
 		log.Printf("Found %s %s %s", apiVersion, kind, name)
